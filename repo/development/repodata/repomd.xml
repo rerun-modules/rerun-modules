@@ -1,28 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<repomd xmlns="http://linux.duke.edu/metadata/repo" xmlns:rpm="http://linux.duke.edu/metadata/rpm">
-  <revision>1352972577</revision>
+<repomd xmlns="http://linux.duke.edu/metadata/repo">
   <data type="other">
-    <checksum type="sha256">dd6ca82f70203001c03143f4ba311358bf9117e11f281b0e13cc80a0a606cd30</checksum>
-    <timestamp>1352972577</timestamp>
-    <size>1263</size>
-    <open-size>3790</open-size>
-    <open-checksum type="sha256">1c4a9f24403f737cea8e90a191fbb492a3eb85c348af83de1c55160c58f6ec83</open-checksum>
     <location href="repodata/other.xml.gz"/>
+    <checksum type="sha">f1fc6730c2e389ab976ddc4d57c336920b36deed</checksum>
+    <timestamp>1353200008</timestamp>
+    <open-checksum type="sha">d0019b127e227fc9d4de3d8884e2569e13831ab2</open-checksum>
   </data>
   <data type="filelists">
-    <checksum type="sha256">9ac874a8e7c0f6021174aade40c80a8daaed94fc0ced46520999e51b03583e27</checksum>
-    <timestamp>1352972577</timestamp>
-    <size>6811</size>
-    <open-size>139583</open-size>
-    <open-checksum type="sha256">ddd17a0913935a103e45013bf9dd6811b124265c52976bae0fe3533a1b52a055</open-checksum>
     <location href="repodata/filelists.xml.gz"/>
+    <checksum type="sha">c78f42bc7027adca9b3efcb4e461616259c9fbb3</checksum>
+    <timestamp>1353200008</timestamp>
+    <open-checksum type="sha">600cb8773456d34119ae816cd645dfdc7466f966</open-checksum>
   </data>
   <data type="primary">
-    <checksum type="sha256">4344da92a641b13f69c3fa897366f7d1b2480a80eb8b1e942422ab413bc95476</checksum>
-    <timestamp>1352972577</timestamp>
-    <size>3058</size>
-    <open-size>26521</open-size>
-    <open-checksum type="sha256">d18725c936e0872c6f7cc4a52aeca2d6d21fb42a9225d54b156dd0bb7a4c9acf</open-checksum>
     <location href="repodata/primary.xml.gz"/>
+    <checksum type="sha">e463f736214ceeee011629da426ad49d0f43e82c</checksum>
+    <timestamp>1353200008</timestamp>
+    <open-checksum type="sha">d5367fd6b5754cbf214d34d45d9be6e70b9d3b02</open-checksum>
   </data>
 </repomd>
