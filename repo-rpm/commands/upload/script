@@ -1,0 +1,38 @@
+#!/usr/bin/env bash
+#
+#/ command: repo-rpm:upload: "Upload the built RPM to GitHub"
+#
+#/ usage: rerun repo-rpm:upload [ --version <1.0>] [ --release <1>] 
+#
+#/ rerun env variables: RERUN, RERUN_VERSION, RERUN_MODULES, RERUN_MODULE_DIR
+#/ option variables: VERSION RELEASE
+
+# Read module function library.
+. $RERUN_MODULE_DIR/lib/functions.sh || { 
+  echo >&2 "Failed loading function library." ; exit 1 ; 
+}
+
+# Error handling
+# ---------------
+# * Trap calls `rerun_die` with standard message.
+# * Exit upon command errors or accessing unset variables.
+#   * See [set](http://ss64.com/bash/set.html)
+trap 'rerun_die $? "*** command failed: repo-rpm:upload. ***"' ERR
+set -o nounset -o pipefail
+
+# Parse the command options.
+[[ -r $RERUN_MODULE_DIR/commands/upload/options.sh ]] && {
+    . $RERUN_MODULE_DIR/commands/upload/options.sh || rerun_die "Failed loading options parser."
+    rerun_options_parse "$@"
+}
+
+
+# ------------------------------
+# Your implementation goes here.
+# ------------------------------
+
+rerun github:create-download -f $RERUN_MODULE_DIR/RPMS/noarch/rerun-modules-repo-${VERSION}-${RELEASE}.noarch.rpm -c application/x-rpm -o rerun-modules -r rerun-modules
+
+exit $?
+
+# Done
