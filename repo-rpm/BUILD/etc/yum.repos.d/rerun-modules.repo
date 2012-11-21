@@ -1,5 +1,5 @@
-[rerun-modules-development]
-name=Rerun modules - development repository
-baseurl=http://rerun-modules.github.com/rerun-modules/repo/development
+[rerun-modules]
+name=Rerun modules repository
+baseurl=http://services.dtosolutions.com/rerun-modules/repo/
 gpgcheck=0
 enabled=1
