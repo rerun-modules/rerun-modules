@@ -1,0 +1,41 @@
+#!/usr/bin/env bash
+#
+#/ command: yum-rpm:all: "Run the full build process"
+#
+#/ usage: rerun yum-rpm:all [ --version <1.0>] [ --release <1>] 
+#
+#/ rerun env variables: RERUN, RERUN_VERSION, RERUN_MODULES, RERUN_MODULE_DIR
+#/ option variables: VERSION RELEASE
+
+# Read module function library.
+. $RERUN_MODULE_DIR/lib/functions.sh || { 
+  echo >&2 "Failed loading function library." ; exit 1 ; 
+}
+
+# Error handling
+# ---------------
+# * Trap calls `rerun_die` with standard message.
+# * Exit upon command errors or accessing unset variables.
+#   * See [set](http://ss64.com/bash/set.html)
+trap 'rerun_die $? "*** command failed: yum-rpm:all. ***"' ERR
+set -o nounset -o pipefail
+
+# Parse the command options.
+[[ -r $RERUN_MODULE_DIR/commands/all/options.sh ]] && {
+    . $RERUN_MODULE_DIR/commands/all/options.sh || rerun_die "Failed loading options parser."
+    rerun_options_parse "$@"
+}
+
+
+# ------------------------------
+# Your implementation goes here.
+# ------------------------------
+
+rerun yum-rpm:clean
+rerun yum-rpm:test
+rerun yum-rpm:build --version $VERSION --release $RELEASE
+rerun yum-rpm:upload --version $VERSION --release $RELEASE
+
+exit $?
+
+# Done

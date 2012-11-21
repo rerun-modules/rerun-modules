@@ -1,0 +1,63 @@
+#!/usr/bin/env bash
+#
+#/ command: yum-rpm:build: "Build the specified Rerun modules Yum repository RPM"
+#
+#/ usage: rerun yum-rpm:build [ --version <1.0>] [ --release <1>] 
+#
+#/ rerun env variables: RERUN, RERUN_VERSION, RERUN_MODULES, RERUN_MODULE_DIR
+#/ option variables: VERSION RELEASE
+
+# Read module function library.
+. $RERUN_MODULE_DIR/lib/functions.sh || { 
+  echo >&2 "Failed loading function library." ; exit 1 ; 
+}
+
+# Error handling
+# ---------------
+# * Trap calls `rerun_die` with standard message.
+# * Exit upon command errors or accessing unset variables.
+#   * See [set](http://ss64.com/bash/set.html)
+trap 'rerun_die $? "*** command failed: yum-rpm:build. ***"' ERR
+set -o nounset -o pipefail
+
+# Parse the command options.
+[[ -r $RERUN_MODULE_DIR/commands/build/options.sh ]] && {
+    . $RERUN_MODULE_DIR/commands/build/options.sh || rerun_die "Failed loading options parser."
+    rerun_options_parse "$@"
+}
+
+
+# ------------------------------
+# Your implementation goes here.
+# ------------------------------
+
+# Setup the package build root directory.
+rm -rf $RERUN_MODULE_DIR/BUILD
+mkdir -p $RERUN_MODULE_DIR/BUILD/var/www/html/rerun-modules/repo
+
+# Download the latest RPM downloads from all the repositories associated with the rerun-modules organization.
+for REPOSITORY in $(rerun github:list-organization-repositories --organization rerun-modules)
+do
+  # Find the most recent RPM download, if it exists.
+  DOWNLOAD=$(rerun github:list-downloads --owner rerun-modules --repository ${REPOSITORY} --latest true)
+
+  if [[ -n ${DOWNLOAD} ]]
+  then
+    FILE=$(echo ${DOWNLOAD} | cut -d: -f1)
+
+    if (echo ${FILE} | grep -qv 'rerun-modules-yum-repo-.*\.noarch')
+    then
+      rerun github:get-download --owner rerun-modules --repository ${REPOSITORY} --file ${FILE} --output $RERUN_MODULE_DIR/BUILD/var/www/html/rerun-modules/repo/${FILE}
+    fi
+  fi
+done
+
+# Create the Yum repository metadata.
+createrepo -q $RERUN_MODULE_DIR/BUILD/var/www/html/rerun-modules/repo
+
+# Build the RPM.
+rerun rpm:build --name rerun-modules-yum-repo --version $VERSION --release $RELEASE --topdir $RERUN_MODULE_DIR
+
+exit $?
+
+# Done
