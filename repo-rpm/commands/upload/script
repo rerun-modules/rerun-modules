@@ -31,7 +31,7 @@ set -o nounset -o pipefail
 # Your implementation goes here.
 # ------------------------------
 
-rerun github:create-download -f $RERUN_MODULE_DIR/RPMS/noarch/rerun-modules-repo-${VERSION}-${RELEASE}.noarch.rpm -c application/x-rpm -o rerun-modules -r rerun-modules
+rerun github:create-download --file $RERUN_MODULE_DIR/RPMS/noarch/rerun-modules-repo-${VERSION}-${RELEASE}.noarch.rpm --owner rerun-modules --repository rerun-modules
 
 exit $?
 
